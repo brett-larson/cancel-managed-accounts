@@ -1,3 +1,5 @@
+from typing import Tuple, List
+
 from nerdgraph.queries.get_managed_accounts import get_managed_accounts
 from nerdgraph.utils.nerdgraph_client import NerdGraphClient
 from nerdgraph.utils.csv_writer import write_to_csv
@@ -7,12 +9,12 @@ from nerdgraph.utils.logger import Logger
 logger = Logger(__name__).get_logger()
 
 def get_managed_accounts_workflow(nerdgraph_client: NerdGraphClient,
-                                  csv_output_path: str = None):
+                                  csv_output_path: str = None) -> Tuple[List[dict], List[dict]]:
     """
     Get managed accounts workflow. This function gets managed accounts with status and writes the data to CSV files.
-    :param nerdgraph_client:
-    :param csv_output_path:
-    :return:
+    :param nerdgraph_client: NerdGraphClient object
+    :param csv_output_path: Path to the output CSV files. If None, the default path is used.
+    :return: Tuple of active and canceled accounts
     """
     logger.info('***** Get Managed Accounts Workflow Started *****')
 
