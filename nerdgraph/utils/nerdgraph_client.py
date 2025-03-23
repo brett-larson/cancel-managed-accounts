@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import requests
 from nerdgraph.utils import Logger
@@ -29,7 +30,10 @@ class NerdGraphClient:
         if api_key:
             logger.debug("API key loaded from environment variables")
         else:
-            logger.warning("API key not found in environment variables")
+            logger.warning("API key not found in environment variables. An API key is required. Ensure the API key"
+                           " is set in the .env file. Application stopping.")
+            sys.exit(1)
+
         return api_key
 
     def execute_query(self, query: str, variables: Dict = None, max_retries: int = 3, backoff_factor: int = 2) -> Any:
