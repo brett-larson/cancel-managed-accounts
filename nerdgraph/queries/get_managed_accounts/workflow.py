@@ -49,7 +49,7 @@ def get_managed_accounts_workflow(nerdgraph_client: NerdGraphClient,
         logger.critical(f"An error occurred: {e}")
 
 
-    logger.info('***** Get Managed Accounts Workflow Started *****')
+    logger.info('***** Get Managed Accounts Workflow Complete *****')
 
     return active_accounts, canceled_accounts
 

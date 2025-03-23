@@ -36,6 +36,7 @@ def main():
     # Get managed accounts workflow
     active_accounts, canceled_accounts = get_managed_accounts_workflow(nerdgraph_client, csv_output_path)
 
+    # Check if any of the accounts we want to cancel are already canceled or active.
     try:
         active_account_ids = [account['id'] for account in active_accounts]
         canceled_account_ids = [account['id'] for account in canceled_accounts]
@@ -51,6 +52,10 @@ def main():
                 logger.info(f'Account {account} is active.')
 
         logger.info(f'Accounts to cancel: {account_numbers_to_cancel}')
+        if not account_numbers_to_cancel:
+            logger.info('No accounts to cancel. Exiting application.')
+            sys.exit(0)
+
     except Exception as e:
         logger.error(f'Error checking if accounts are already canceled or active: {e}')
         return

@@ -21,18 +21,29 @@ query GetManagedAccounts($isCanceled: Boolean!) {
 }
 """
 
-def get_managed_accounts(nerdgraph_client: NerdGraphClient, is_canceled: bool) -> List | None:
-    variables = {"isCanceled": is_canceled}
+def get_query() -> str:
+    return GET_MANAGED_ACCOUNTS
+
+def get_managed_accounts(nerdgraph_client: NerdGraphClient, is_canceled: bool) -> list[dict] | None:
+    """
+    Get managed accounts using the isCanceled parameter.
+    :param nerdgraph_client: Instance of NerdGraphClient
+    :param is_canceled: Boolean value to filter managed accounts
+    :return: List of managed accounts
+    """
+    variables = {
+        "isCanceled": is_canceled
+    }
 
     try:
-        response = nerdgraph_client.execute_query(query=GET_MANAGED_ACCOUNTS, variables=variables)
-        managed_accounts = _format_response(response)
+        response = nerdgraph_client.execute_query(GET_MANAGED_ACCOUNTS, variables)
+        managed_accounts = format_response(response)
         return managed_accounts
     except Exception as e:
         logger.error(f"Failed to get managed accounts: {e}")
         return None
 
-def _format_response(response: dict) -> list[dict] | None:
+def format_response(response: dict) -> list[dict] | None:
     try:
         managed_accounts = response["data"]["actor"]["organization"]["accountManagement"]["managedAccounts"]
         return managed_accounts
